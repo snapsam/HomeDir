@@ -5,10 +5,10 @@ alias 'rtt=recs-totable'
 alias 'ns=ninjaWarpSearch'
 
 #ls alias, mainly add --color
-alias 'ls=ls -G'
-alias 'la=ls -G -A'
-alias 'lt=ls -G -latr'
-alias 'lc=ls --color=never'
+alias 'ls=/bin/ls -G'
+alias 'la=/bin/ls -G -A'
+alias 'lt=/bin/ls -G -latr'
+alias 'lc=/bin/ls --color=never'
 
 #zmv stuff
 autoload zmv
@@ -40,3 +40,15 @@ alias 's3_upload.pl=s3_upload.pl --prompt'
 
 # Prompt when about to overwrite a file iwht mv (use -f to force)
 alias 'mv=mv -i'
+
+# If hub is installed alias git to it
+if type hub >/dev/null;
+then
+  alias 'git=hub'
+fi
+
+# Add an alias for mocha
+alias 'fm=foreman run -e server/config/environments/test.env,.env.local mocha'
+
+# Update browserify
+alias 'gb=grunt browserify:app'

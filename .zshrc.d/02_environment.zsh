@@ -8,9 +8,12 @@ setenv LS_COLORS 'no=00:fi=00:di=01;34:ln=01;31:pi=40;33:so=01;35:do=01;35:bd=40
 export PATH=/usr/local/bin:/usr/local/opt/coreutils/libexec/gnubin:$PATH:$HOME/bin
 export VIM_TEMP="/var/tmp/$USER/vim-temp"
 
-export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+# used to have gnu utils override mac utils, but causing problmes on shell startup (ls error)
+# export PATH=/usr/local/bin:/usr/local/opt/coreutils/libexec/gnubin:$PATH:$HOME/bin
+# export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
 if [[ ! -d $VIM_TEMP ]]; then
   mkdir -p $VIM_TEMP
 fi
 
+ulimit -n 10240 # More file descriptors for the stingy mac, helps with grunt watch

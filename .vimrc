@@ -1,4 +1,4 @@
-" Intialzie pathogen, a plugin management system that lets plugins live in
+" Initialize pathogen, a plugin management system that lets plugins live in
 " their own directories
 
 call pathogen#infect()
@@ -21,29 +21,31 @@ source $HOME/.eihooks/dotfiles/vimrc
 set fo+=qr                     " q: gq foramts with comments, see :help fo-table, r: auto insert comments on new lines
 set foldcolumn=0               " turn off the foldcolumn
 set history=200                " Remember 100 lines of history, for commands and searches
-set hls                        " highlight serach terms
+set hls                        " highlight search terms
 set list                       " Show tabs differently
 set listchars=tab:>-           " Use >--- for tabs
 set nolinebreak                " don't wrap at words, messes up copying
 set smartcase                  " if any capitol in search, turns search case sensitive
-set shiftwidth=2               " use 2 space idnetning
+set shiftwidth=2               " use 2 space indenting
 set softtabstop=2              " use 4 space indenting
 set ts=2                       " Default to 4 spaces for tabs
-"set tags=~/.commontags,./tags " Setup the standard tags files
+set tags=./tags,~/fieldbook/tags  " Setup the standard tags files
 set textwidth=0                " turn wrapping off
 set visualbell                 " Use a flash instead of a sound for bells
 set wildmode=longest:full      " Matches only to longest filename, displays to menu possible matches
 set complete=.,w,b,u           " complete from current file, and current buffers default: .,w,b,u,t,i  trying to keep down completion time
 set directory=$HOME/.vim/tmp   " set directory for tmp files to be in .vim, so that .swp files are not littered
 set clipboard=unnamed          " Use the * register when a register is not specified - unifies with system clipboard!
+set omnifunc=syntaxcomplete#Complete " Turn on omni completion
 
 "set foldmethod=indent   " use indent unless overridden
 "set foldlevel=0         " show contents of all folds
 "set foldcolumn=2        " set a column incase we need it
+
 set foldlevelstart=9999
 
-
 filetype plugin on          "turns on filetype plugin, lets matchit work well
+filetype plugin indent on
 
 "set background=dark
 "colorscheme solarized
@@ -112,6 +114,10 @@ au FileType c,cpp set cinkeys+=0#
 
 """"""""""""""" Plugin Settings """"""""""""""""
 
+" javascript-libraries-syntax settings
+  let g:used_javascript_libs = 'underscore,backbone,jquery'
+
+
 " vim todo settings
   autocmd BufNewFile,BufRead *.todo set foldlevelstart=0 "todo files have a fold level..
   autocmd BufNewFile,BufRead *.todo set filetype=todo " .todo files to filetype todo
@@ -128,6 +134,8 @@ au FileType c,cpp set cinkeys+=0#
 
   let g:todo_done_file = ".todo_done_log.todo" " Set file to put done tasks in
   let g:todo_browser = "open" " what browser to use to open incidents
+  let g:todo_log_into_drawer = "" " Do not log timestamps of state changes
+  let g:todo_log_done = 0 " Do not log timestamps of done
 
 " calendar settings
 " PrePad taken from stackoverflow:
@@ -231,10 +239,21 @@ au FileType c,cpp set cinkeys+=0#
   " Map <leader>st to SyntasticToggleMode
   map <Leader>st :SyntasticReset<CR>
 
+  " Set js checkers to include jscs
+  let g:syntastic_javascript_checkers = ['jshint', 'jscs']
+
   " Setup javascript as the only active syntax
   let g:syntastic_mode_map = { 'mode': 'passive',
                              \ 'active_filetypes': ['javascript'],
                              \ 'passive_filetypes': [] }
+
+" Super tab Settings
+  " Have supertab look at characters before cursor to determine completion
+  " type
+  let g:SuperTabDefaultCompletionType = "context"
+
+" Gundo Settings
+  nmap <Leader>gu :GundoToggle<CR>
 
 """"""""""""""" Command mappings """"""""""""""""
 
@@ -285,6 +304,12 @@ au FileType c,cpp set cinkeys+=0#
   " it through a recs command
   :nmap <leader>r GV{yGpGV{j!recs-
 
+  " Map to make tabs more usable
+  nmap <Leader>TN :tabn<CR>
+  nmap <Leader>tN :tabn<CR>
+  nmap <Leader>tP :tabp<CR>
+  nmap <Leader>TP :tabp<CR>
+
 " Maybe if I had a real X buffer, this would be cool.  Too bad.
 "  " X buffer cut/paste
 "  nmap <Leader>xp "*p
@@ -318,119 +343,17 @@ au FileType c,cpp set cinkeys+=0#
   "command -nargs=0 Edit :!p4 edit %
   "command -nargs=0 Revert :!p4 revert %
 
+" Do not use folds in vim-markdown
+let g:vim_markdown_folding_disabled=1
+
 " Unite
-  " Much of this is is borrowed from: https://github.com/terryma/dotfiles/blob/master/.vimrc
-  let g:unite_source_history_yank_enable = 1
-  call unite#filters#matcher_default#use(['matcher_fuzzy'])
-  call unite#filters#sorter_default#use(['sorter_rank'])
+  " Got annoying having it all in this file, I've moved it to .vimrc.unite
+  source $HOME/.vimrc.unite
 
-  " Unite mappers, the final word is the type of thing that will be serached, otherwise is fairly self-explanatory
+" Insert test data
+ let @t = 'O"*Pvi]:s/ €kb-  "/"/g€kbvi]=w'
+ nmap <Leader>ti @t
 
-  " Search all files from current dir
-  nnoremap <leader>ut :<C-u>Unite -buffer-name=files   -start-insert file_rec/async:!<cr>
-
-  " Search files in current dir
-  "nnoremap <leader>uf :<C-u>Unite -buffer-name=files   -start-insert file<cr>
-
-  " Search files in mru order
-  nnoremap <leader>um :<C-u>Unite -buffer-name=mru     -start-insert file_mru<cr>
-
-  " Search buffer names
-  nnoremap <leader>ub :<C-u>Unite -buffer-name=buffer  buffer<cr>
-
-  " Start unite with a grep
-  nnoremap <leader>ug :Unite -buffer-name=grep grep:.<cr>
-
-  " Unite grep the word under the cursor
-  nnoremap <leader>ul :UniteWithCursorWord -buffer-name=grep grep:.<cr>
-
-  " Search yank history
-  nnoremap <leader>uy :<C-u>Unite -buffer-name=yank    history/yank<cr>
-
-  " Search Help docs !! (yay!)
-  nnoremap <leader>uh :<C-u>Unite -start-insert -buffer-name=help help<CR>
-
-  " search command history
-  nnoremap <leader>uc :<C-u>Unite -buffer-name=commands history/command<CR>
-
-  " Search registers
-  nnoremap <leader>ur :<C-u>Unite -start-insert -buffer-name=register register<CR>
-
-  " Search outline, think taglist
-  nnoremap <leader>uo :<C-u>Unite -buffer-name=outline -start-insert outline<CR>
-
-  " Resume looking at a unite session
-  nnoremap <leader>uu :<C-u>UniteResume<cr>
-
-  " For some reason <C-a> was getting mapped away, using autocmd to bypass
-  " that
-  " Search files with Ctrl-a
-  nnoremap <C-a> :<C-u>Unite -buffer-name=files   -start-insert file_rec/async:!<cr>
-  autocmd VimEnter * nnoremap <C-a> :<C-u>Unite -buffer-name=files   -start-insert file_rec/async:!<cr>
-
-  " Start in insert mode
-  let g:unite_enable_start_insert = 1
-
-  " Setup a data directory
-  let g:unite_data_directory = "~/.unite"
-
-  " Enable history yank source
-  let g:unite_source_history_yank_enable = 1
-
-  " Also save clipboard values
-  let g:unite_source_history_yank_save_clipboard = 1
-
-  " Keep more yank history
-  let g:unite_source_history_yank_limit = 10000
-
-  " Open in bottom right
-  let g:unite_split_rule = "botright"
-
-  " Shorten the default update date of 500ms
-  let g:unite_update_time = 200
-
-  " Unite MRU settings
-  let g:unite_source_file_mru_limit = 1000
-  let g:unite_cursor_line_highlight = 'TabLineSel'
-  " let g:unite_abbr_highlight = 'TabLine'
-
-  " Custom mappings for the unite buffer
-  autocmd FileType unite call s:unite_settings()
-  function! s:unite_settings()
-    " Play nice with supertab
-    let b:SuperTabDisabled=1
-    " Enable navigation with control-j and control-k in insert mode
-    imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-    imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-    nmap <buffer> <ESC> <Plug>(unite_exit)
-    imap <buffer> <ESC> <Plug>(unite_exit)
-    nmap <buffer> <c-j> <Plug>(unite_loop_cursor_down)
-    nmap <buffer> <c-k> <Plug>(unite_loop_cursor_up)
-    imap <buffer> <c-a> <Plug>(unite_choose_action)
-    imap <buffer> <Tab> <Plug>(unite_exit_insert)
-    imap <buffer> jj <Plug>(unite_insert_leave)
-    imap <buffer> <C-w> <Plug>(unite_delete_backward_word)
-    imap <buffer> <C-u> <Plug>(unite_delete_backward_path)
-    imap <buffer> '     <Plug>(unite_quick_match_default_action)
-    nmap <buffer> '     <Plug>(unite_quick_match_default_action)
-    nmap <buffer> <C-r> <Plug>(unite_redraw)
-    imap <buffer> <C-r> <Plug>(unite_redraw)
-    inoremap <silent><buffer><expr> <C-s> unite#do_action('split')
-    nnoremap <silent><buffer><expr> <C-s> unite#do_action('split')
-    inoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-    nnoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-  endfunction
-
-  " Use ag for search
-  if executable('ag')
-    let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
-    let g:unite_source_grep_recursive_opt = ''
-  endif
-
-  " Airline status bar settings
-  "Enable tab line when just one tab open
-  let g:airline#extensions#tabline#enabled = 1
 
 """"""""""""""" Typos """"""""""""""""""""
 " A list of iabbrev to correct common typos
@@ -475,6 +398,12 @@ if ( v:version >= 703 )
   set undodir=$HOME/.vim/tmp     " set directory for undo files
 endif
 
+""""""""""""""" Filetype Settings """"""""""""""""""""
+
+" Do not use a backup file when editing a crontab, because OSX complains with
+" crontab: temp file must be edited in place
+autocmd filetype crontab setlocal nobackup nowritebackup
+
 """"""""""""""" Version 7 Settings """"""""""""""""""""
 
 " The highlight changes at least have to be at the end here... not sure why
@@ -488,3 +417,10 @@ augroup WhiteSpaceMatching
   autocmd InsertLeave * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+$/ | endif
   autocmd BufWinLeave * if &modifiable && &ft!='unite' | call clearmatches() | endif
 augroup END
+
+" Changing spelling highlight to be underline, must come at the end
+hi clear SpellBad
+hi SpellBad cterm=underline
+
+hi clear SpellCap
+hi SpellCap cterm=underline

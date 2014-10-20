@@ -3,6 +3,9 @@ chatnets = {
   bitlbee = { type = "IRC"; nick = "bernard_bitlbee"; };
 };
 
+servers = (
+);
+
 channels = (
   { name = "#ex_bow"; chatnet = "freenode"; autojoin = "yes"; },
   {
@@ -10,7 +13,8 @@ channels = (
     chatnet = "bitlbee";
     autojoin = "yes";
     autosendcmd = "msg &bitlbee identify iamben;";
-  }
+  },
+  { name = "#fieldbook"; chatnet = "bitlbee"; autojoin = "yes"; }
 );
 
 windows = {
@@ -44,6 +48,17 @@ windows = {
         type = "CHANNEL";
         chat_type = "IRC";
         name = "#twitter_bernard_ben";
+        tag = "bitlbee";
+      }
+    );
+  };
+  5 = {
+    immortal = "yes";
+    items = (
+      {
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#fieldbook";
         tag = "bitlbee";
       }
     );
@@ -263,7 +278,7 @@ settings = {
     #autoaway = "36000";
     #away_reason = "idle timeout";
     nicklist_width = "24";
-    nicklist_automode = "off";
+    nicklist_automode = "screen";
     print_log_whole_log = "yes";
     chanact_show_all = "yes";
     nicklist_height = "50";
@@ -278,5 +293,6 @@ ignores = ( );
 hilights = ( { text = "ben_bernard"; nick = "yes"; word = "yes"; } );
 keyboard = (
   { key = "home"; id = "command"; data = "scrollback home"; },
-  { key = "end"; id = "command"; data = "scrollback end"; }
+  { key = "end"; id = "command"; data = "scrollback end"; },
+  { key = "^R"; id = "command"; data = "history_search "; }
 );

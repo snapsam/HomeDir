@@ -19,18 +19,12 @@
 [submodule ".vim/bundle/vim-easymotion"]
 	path = .vim/bundle/vim-easymotion
 	url = git://github.com/Lokaltog/vim-easymotion.git
-[submodule ".vim/bundle/YankRing.vim"]
-	path = .vim/bundle/YankRing.vim
-	url = git://github.com/vim-scripts/YankRing.vim.git
 [submodule ".vim/bundle/vim-visual-increment"]
 	path = .vim/bundle/vim-visual-increment
 	url = git://github.com/triglav/vim-visual-increment.git
 [submodule ".vim/bundle/vim-session"]
 	path = .vim/bundle/vim-session
 	url = git://github.com/xolox/vim-session.git
-[submodule ".vim/bundle/vim-javascript"]
-	path = .vim/bundle/vim-javascript
-	url = https://github.com/pangloss/vim-javascript.git
 [submodule ".vim/bundle/ctrlp.vim"]
 	path = .vim/bundle/ctrlp.vim
 	url = https://github.com/kien/ctrlp.vim.git
@@ -88,3 +82,42 @@
 [submodule ".vim/bundle/vim-colors-solarized"]
 	path = .vim/bundle/vim-colors-solarized
 	url = git://github.com/altercation/vim-colors-solarized.git
+[submodule ".vim/bundle/vim-markdown"]
+	path = .vim/bundle/vim-markdown
+	url = https://github.com/plasticboy/vim-markdown.git
+[submodule ".vim/bundle/supertab"]
+	path = .vim/bundle/supertab
+	url = https://github.com/ervandew/supertab.git
+[submodule ".vim/bundle/gundo.vim.git"]
+	path = .vim/bundle/gundo.vim.git
+	url = http://github.com/sjl/gundo.vim.git
+[submodule ".vim/bundle/vim-mustache-handlebars"]
+	path = .vim/bundle/vim-mustache-handlebars
+	url = git@github.com:mustache/vim-mustache-handlebars.git
+[submodule ".vim/bundle/vim-javascript-syntax"]
+	path = .vim/bundle/vim-javascript-syntax
+	url = git@github.com:jelera/vim-javascript-syntax.git
+[submodule ".vim/bundle/javascript-libraries-syntax.vim"]
+	path = .vim/bundle/javascript-libraries-syntax.vim
+	url = git@github.com:othree/javascript-libraries-syntax.vim.git
+[submodule ".vim/bundle/JavaScript-Indent"]
+	path = .vim/bundle/JavaScript-Indent
+	url = git@github.com:vim-scripts/JavaScript-Indent.git
+[submodule ".vim/bundle/CamelCaseMotion"]
+	path = .vim/bundle/CamelCaseMotion
+	url = git@github.com:bkad/CamelCaseMotion.git
+[submodule ".vim/bundle/UnconditionalPaste"]
+	path = .vim/bundle/UnconditionalPaste
+	url = git@github.com:vim-scripts/UnconditionalPaste.git
+[submodule ".vim/bundle/vim-jison"]
+	path = .vim/bundle/vim-jison
+	url = git@github.com:wizicer/vim-jison.git
+[submodule "zsh-syntax-highlighting"]
+	path = zsh-syntax-highlighting
+	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "zsh-completions"]
+	path = zsh-completions
+	url = git://github.com/zsh-users/zsh-completions.git
+[submodule "zaw"]
+	path = zaw
+	url = git://github.com/zsh-users/zaw.git
